@@ -60,7 +60,6 @@ app.post('/books', (req, res) => {
     });
 });
 
-// route to update a book
 app.put('/books/:id', (req, res) => {
     const book = req.body;
     db.run('UPDATE books SET title = ?, author = ? WHERE id = ?', book.title, book.author, req.params.id, function (err) {
@@ -72,7 +71,6 @@ app.put('/books/:id', (req, res) => {
     });
 });
 
-// route to delete a book
 app.delete('/books/:id', (req, res) => {
     db.run('DELETE FROM books WHERE id = ?', req.params.id, function (err) {
         if (err) {
