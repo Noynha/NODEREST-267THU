@@ -1,73 +1,63 @@
-// Description: CRUD Book No DB
-// npm install express
-// Run this file with node src/CRUDBookNoDB.js
-// Test with Postman
-require("dotenv").config(); // const req = require("express/lib/request");
+require("dotenv").config();
 const express = require("express");
 const app = express();
 
-// parse incoming request
 app.use(express.json());
 
-// sample data
 let books = [
-  {
-    id: 1,
-    title: "Book 1",
-    author: "Author 1",
+    {
+        id: 1,
+        title: "book1",
+        author: "author1",
     },
     {
-      id: 2,
-      title: "Book 2",
-      author: "Author 2",
+        id: 2,
+        title: "book2",
+        author: "author2",
     },
     {
-      id: 3,
-      title: "Book 3",
-      author: "Author 3",
+        id: 3,
+        title: "book3",
+        author: "author3",
     }
 ];
-
-// route to get all books
 app.get("/books", (req, res) => {
-  res.json(books);
+    res.json(books);
 });
 
-// route to get a book by id
 app.get("/books/:id", (req, res) => {
-    const book = books.find(b => b.id === parseInt(req.params.id));
-    if (!book) res.status(404).json({ message: "Book not found" });
+    const book = books.find((book) => book.id === parseInt(req.params.id));
+    if (!book) return res.status(404).json({ message: "Book not found" });
     res.json(book);
 });
 
-// route to create a new book
 app.post("/books", (req, res) => {
     const book = {
-      id: books.length + 1,
-      title: req.body.title,
-      author: req.body.author
+        id: books.length + 1,
+        title: req.body.title,
+        author: req.body.author
     };
     books.push(book);
     res.send(book);
 });
 
-// route to update a book
-app.put("/books/:id", (req, res) => {
-    const book = books.find(b => b.id === parseInt(req.params.id));
-    if (!book) res.status(404).send({ message: "Book not found" });
+app.put("/books/:id", (req, res) => {  
+    const book = books.find((book) => book.id === parseInt(req.params.id));
+    if (!book) res.status(404).send("Book not found");
     book.title = req.body.title;
     book.author = req.body.author;
     res.send(book);
 });
 
-// route to delete a book
 app.delete("/books/:id", (req, res) => {
-    const book = books.find(b => b.id === parseInt(req.params.id));
-    if (!book) res.status(404).send({ message: "Book not found" });
+    const book = books.find((book) => book.id === parseInt(req.params.id));
+    if (!book) res.status(404).send("Book not found");
     const index = books.indexOf(book);
     books.splice(index, 1);
     res.send(book);
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Server is running on http://localhost:${port}`));
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+});
